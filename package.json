@@ -1,8 +1,9 @@
 {
-  "name": "react-vitest-typescript-boilerplate",
+  "name": "deploy-react-project",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://felixtribal.github.io/deploy-react/",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

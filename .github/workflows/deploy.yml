@@ -1,0 +1,45 @@
+name: CI and CD
+
+on:
+    push:
+        branches:
+            - main
+
+env:
+  node-version: 21.x
+  working-directory: ./
+
+
+jobs:
+    test-build-deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Use Node.js ${{ env.node-version }}
+              uses: ./.github/actions/setup-node
+              with:
+                node-version: ${{ env.node-version }}
+
+            - name: Install Node modules
+              uses: ./.github/actions/install-node-modules
+        
+            - name: Run tests using the vitest framework
+              uses: ./.github/actions/run-tests
+
+            - name: Build App
+              uses: ./.github/actions/build-app
+            
+            - name: Deploy
+              run: |
+                git config --global user.name $user_name
+                git config --global user.email $user_email
+                git remote set-url origin https://${github_token}@github.com/${repository}
+                npm run deploy
+              env:
+                user_name: 'github-actions[bot]'
+                user_email: 'github-actions[bot]@users.noreply.github.com'
+                github_token: ${{ secrets.DEPLOY_ACCESS_TOKEN }}
+                repository: ${{ github.repository }}
+
