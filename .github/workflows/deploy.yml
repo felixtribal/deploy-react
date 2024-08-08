@@ -50,6 +50,6 @@ jobs:
               id: deployment
               uses: actions/deploy-pages@v2
               with:
-                token: ${ secrets.DEPLOY_REACT_APP_TOKEN }
+                token: ${{ secrets.DEPLOY_REACT_APP_TOKEN }}
                 artifact_name: 'github-pages'
 
